@@ -1,147 +1,126 @@
-<html>
-<head>
-<title>project3.py</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-.s0 { color: #cc7832;}
-.s1 { color: #a9b7c6;}
-.s2 { color: #808080;}
-.s3 { color: #6a8759;}
-.s4 { color: #6897bb;}
-</style>
-</head>
-<body bgcolor="#2b2b2b">
-<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
-<tr><td><center>
-<font face="Arial, Helvetica" color="#000000">
-project3.py</font>
-</center></td></tr></table>
-<pre><span class="s0">def </span><span class="s1">identity_except_one(str1</span><span class="s0">, </span><span class="s1">str2):</span>
-    <span class="s2"># recursion's conditions:</span>
-    <span class="s2"># if str1 and str 2 are empty</span>
-    <span class="s0">if </span><span class="s1">str1 == </span><span class="s3">&quot;&quot; </span><span class="s0">and </span><span class="s1">str2 == </span><span class="s3">&quot;&quot;</span><span class="s1">:</span>
-        <span class="s0">return False</span>
-    <span class="s2"># if str1 and str 2 are identical</span>
-    <span class="s0">if </span><span class="s1">str1 == str2:</span>
-        <span class="s0">return False</span>
-    <span class="s2"># if str1 or str 2 are empty</span>
-    <span class="s0">if </span><span class="s1">(str1 == </span><span class="s3">&quot;&quot; </span><span class="s0">or </span><span class="s1">str1 </span><span class="s0">is None</span><span class="s1">) </span><span class="s0">and </span><span class="s1">str2 != </span><span class="s3">&quot;&quot;</span><span class="s1">:</span>
-        <span class="s0">return False</span>
-    <span class="s0">if </span><span class="s1">str1 != </span><span class="s3">&quot;&quot; </span><span class="s0">and </span><span class="s1">(str2 == </span><span class="s3">&quot;&quot; </span><span class="s0">or </span><span class="s1">str2 </span><span class="s0">is None</span><span class="s1">):</span>
-        <span class="s0">return False</span>
-    <span class="s2"># going recursive, with one less char in each string</span>
-    <span class="s1">prev_result = identity_except_one(str1[:-</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">str2[:-</span><span class="s4">1</span><span class="s1">])</span>
-    <span class="s2"># if received True, verifying that another string does not qualify</span>
-    <span class="s0">if </span><span class="s1">prev_result:</span>
-        <span class="s0">return </span><span class="s1">str1[-</span><span class="s4">1</span><span class="s1">] == str2[-</span><span class="s4">1</span><span class="s1">]</span>
-    <span class="s2"># if received false:</span>
-    <span class="s0">else</span><span class="s1">:</span>
-        <span class="s2"># checking if the strings are not at the same length</span>
-        <span class="s0">if </span><span class="s1">len(str1) != len(str2):</span>
-            <span class="s0">return False</span>
-        <span class="s2"># checking if strings are not equal</span>
-        <span class="s0">if </span><span class="s1">str1 == str2:</span>
-            <span class="s0">return False</span>
-        <span class="s2"># if strings are equal except last char, return True (it`s the only difference)</span>
-        <span class="s0">return </span><span class="s1">str1[:-</span><span class="s4">1</span><span class="s1">] == str2[:-</span><span class="s4">1</span><span class="s1">] </span><span class="s0">and </span><span class="s1">str1[-</span><span class="s4">1</span><span class="s1">] != str2[-</span><span class="s4">1</span><span class="s1">]</span>
+def identity_except_one(str1, str2):
+    # recursion's conditions:
+    # if str1 and str 2 are empty
+    if str1 == "" and str2 == "":
+        return False
+    # if str1 and str 2 are identical
+    if str1 == str2:
+        return False
+    # if str1 or str 2 are empty
+    if (str1 == "" or str1 is None) and str2 != "":
+        return False
+    if str1 != "" and (str2 == "" or str2 is None):
+        return False
+    # going recursive, with one less char in each string
+    prev_result = identity_except_one(str1[:-1], str2[:-1])
+    # if received True, verifying that another string does not qualify
+    if prev_result:
+        return str1[-1] == str2[-1]
+    # if received false:
+    else:
+        # checking if the strings are not at the same length
+        if len(str1) != len(str2):
+            return False
+        # checking if strings are not equal
+        if str1 == str2:
+            return False
+        # if strings are equal except last char, return True (it`s the only difference)
+        return str1[:-1] == str2[:-1] and str1[-1] != str2[-1]
 
 
-<span class="s0">def </span><span class="s1">flags(a</span><span class="s0">, </span><span class="s1">b):</span>
-    <span class="s0">return </span><span class="s1">flags_change(a</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s4">0</span><span class="s1">)</span>
+def flags(a, b):
+    return flags_change(a, b, 0)
 
 
-<span class="s0">def </span><span class="s1">flags_change(a</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s1">i):</span>
-    <span class="s2"># recursion's conditions:</span>
-    <span class="s2"># lists are the same</span>
-    <span class="s0">if </span><span class="s1">a == b:</span>
-        <span class="s0">return True</span>
-    <span class="s2">#</span>
-    <span class="s0">if </span><span class="s1">i == len(a):</span>
-        <span class="s0">return False</span>
-    <span class="s2"># create new list and copy  list &quot;a&quot; into</span>
-    <span class="s1">new_flag_list = []</span>
-    <span class="s1">new_flag_list.extend(a)</span>
-    <span class="s2"># condition for replacement of flags</span>
-    <span class="s0">if </span><span class="s1">i == </span><span class="s4">0</span><span class="s1">:</span>
-        <span class="s1">new_flag_list[i] = </span><span class="s0">not </span><span class="s1">new_flag_list[i]</span>
-        <span class="s1">new_flag_list[i + </span><span class="s4">1</span><span class="s1">] = </span><span class="s0">not </span><span class="s1">new_flag_list[i + </span><span class="s4">1</span><span class="s1">]</span>
-    <span class="s0">elif </span><span class="s1">i == len(a) - </span><span class="s4">1</span><span class="s1">:</span>
-        <span class="s1">new_flag_list[i] = </span><span class="s0">not </span><span class="s1">a[i]</span>
-        <span class="s1">new_flag_list[i - </span><span class="s4">1</span><span class="s1">] = </span><span class="s0">not </span><span class="s1">a[i - </span><span class="s4">1</span><span class="s1">]</span>
-    <span class="s0">else</span><span class="s1">:</span>
-        <span class="s1">new_flag_list[i] = </span><span class="s0">not </span><span class="s1">a[i]</span>
-        <span class="s1">new_flag_list[i + </span><span class="s4">1</span><span class="s1">] = </span><span class="s0">not </span><span class="s1">new_flag_list[i + </span><span class="s4">1</span><span class="s1">]</span>
-        <span class="s1">new_flag_list[i - </span><span class="s4">1</span><span class="s1">] = </span><span class="s0">not </span><span class="s1">new_flag_list[i - </span><span class="s4">1</span><span class="s1">]</span>
+def flags_change(a, b, i):
+    # recursion's conditions:
+    # lists are the same
+    if a == b:
+        return True
+    #
+    if i == len(a):
+        return False
+    # create new list and copy  list "a" into
+    new_flag_list = []
+    new_flag_list.extend(a)
+    # condition for replacement of flags
+    if i == 0:
+        new_flag_list[i] = not new_flag_list[i]
+        new_flag_list[i + 1] = not new_flag_list[i + 1]
+    elif i == len(a) - 1:
+        new_flag_list[i] = not a[i]
+        new_flag_list[i - 1] = not a[i - 1]
+    else:
+        new_flag_list[i] = not a[i]
+        new_flag_list[i + 1] = not new_flag_list[i + 1]
+        new_flag_list[i - 1] = not new_flag_list[i - 1]
 
-    <span class="s1">original_flag_list = flags_change(a</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s1">i + </span><span class="s4">1</span><span class="s1">)</span>
-    <span class="s1">flip_flag_list = flags_change(new_flag_list</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s1">i + </span><span class="s4">1</span><span class="s1">)</span>
+    original_flag_list = flags_change(a, b, i + 1)
+    flip_flag_list = flags_change(new_flag_list, b, i + 1)
 
-    <span class="s0">return </span><span class="s1">flip_flag_list </span><span class="s0">or </span><span class="s1">original_flag_list</span>
-
-
-<span class="s0">def </span><span class="s1">is_sum(l</span><span class="s0">, </span><span class="s1">result):</span>
-    <span class="s2"># recursion's conditions:</span>
-    <span class="s2"># result is smaller than 0</span>
-    <span class="s0">if </span><span class="s1">result &lt; </span><span class="s4">0</span><span class="s1">:</span>
-        <span class="s0">return False</span>
-    <span class="s2"># if list and result are the same number</span>
-    <span class="s0">if </span><span class="s1">len(l) == </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">result % l[</span><span class="s4">0</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">:</span>
-        <span class="s0">return True</span>
-    <span class="s2"># if list is empty</span>
-    <span class="s0">if </span><span class="s1">l == []:</span>
-        <span class="s0">return </span><span class="s1">result == </span><span class="s4">0</span>
-    <span class="s0">else</span><span class="s1">:</span>
-        <span class="s0">return </span><span class="s1">is_sum(l[</span><span class="s4">1</span><span class="s1">:]</span><span class="s0">, </span><span class="s1">result - l[</span><span class="s4">0</span><span class="s1">]) </span><span class="s0">or </span><span class="s1">is_sum(l[</span><span class="s4">1</span><span class="s1">:]</span><span class="s0">, </span><span class="s1">result) </span><span class="s0">or </span><span class="s1">is_sum(l[</span><span class="s4">1</span><span class="s1">:]</span><span class="s0">, </span><span class="s1">result % l[-</span><span class="s4">1</span><span class="s1">])</span>
+    return flip_flag_list or original_flag_list
 
 
-<span class="s0">def </span><span class="s1">distance(row1</span><span class="s0">, </span><span class="s1">col1</span><span class="s0">, </span><span class="s1">row2</span><span class="s0">, </span><span class="s1">col2):</span>
-    <span class="s2"># calculate distance between row</span>
-    <span class="s1">up_down = abs(row1 - row2)</span>
-    <span class="s2"># calculate distance between col</span>
-    <span class="s1">right_left = abs(col1 - col2)</span>
-    <span class="s0">return </span><span class="s1">up_down + right_left</span>
+def is_sum(l, result):
+    # recursion's conditions:
+    # result is smaller than 0
+    if result < 0:
+        return False
+    # if list and result are the same number
+    if len(l) == 1 and result % l[0] == 0:
+        return True
+    # if list is empty
+    if l == []:
+        return result == 0
+    else:
+        return is_sum(l[1:], result - l[0]) or is_sum(l[1:], result) or is_sum(l[1:], result % l[-1])
 
 
-<span class="s0">def </span><span class="s1">add_tower(board</span><span class="s0">, </span><span class="s1">d</span><span class="s0">, </span><span class="s1">row</span><span class="s0">, </span><span class="s1">col):</span>
-    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(row):</span>
-        <span class="s2"># check if distance is smaller than d</span>
-        <span class="s0">if </span><span class="s1">distance(i</span><span class="s0">, </span><span class="s1">board[i]</span><span class="s0">, </span><span class="s1">row</span><span class="s0">, </span><span class="s1">col) &lt;= d:</span>
-            <span class="s0">return False</span>
-    <span class="s2"># replace tower placement</span>
-    <span class="s1">board[row] = col</span>
-    <span class="s0">return True</span>
+def distance(row1, col1, row2, col2):
+    # calculate distance between row
+    up_down = abs(row1 - row2)
+    # calculate distance between col
+    right_left = abs(col1 - col2)
+    return up_down + right_left
 
 
-<span class="s0">def </span><span class="s1">n_towers(n</span><span class="s0">, </span><span class="s1">d):</span>
-    <span class="s0">if </span><span class="s1">d &gt; n:</span>
-        <span class="s0">return </span><span class="s1">[]</span>
-    <span class="s1">grid = create_grid([]</span><span class="s0">, </span><span class="s1">n</span><span class="s0">, </span><span class="s1">d)</span>
-    <span class="s0">if </span><span class="s1">grid </span><span class="s0">is None</span><span class="s1">:</span>
-        <span class="s1">grid = []</span>
-    <span class="s0">return </span><span class="s1">grid</span>
+def add_tower(board, d, row, col):
+    for i in range(row):
+        # check if distance is smaller than d
+        if distance(i, board[i], row, col) <= d:
+            return False
+    # replace tower placement
+    board[row] = col
+    return True
 
 
-<span class="s0">def </span><span class="s1">create_grid(grid</span><span class="s0">, </span><span class="s1">n</span><span class="s0">, </span><span class="s1">d):</span>
-    <span class="s0">if </span><span class="s1">grid </span><span class="s0">is None</span><span class="s1">:</span>
-        <span class="s0">return None</span>
-    <span class="s0">if </span><span class="s1">len(grid) == n:</span>
-        <span class="s0">return </span><span class="s1">grid</span>
-    <span class="s0">if not </span><span class="s1">grid:</span>
-        <span class="s1">grid.append(</span><span class="s4">0</span><span class="s1">)</span>
-        <span class="s0">return </span><span class="s1">create_grid(grid</span><span class="s0">, </span><span class="s1">n</span><span class="s0">, </span><span class="s1">d)</span>
-    <span class="s1">prev_tower = grid[-</span><span class="s4">1</span><span class="s1">]</span>
-    <span class="s1">grid.append(</span><span class="s0">None</span><span class="s1">)</span>
-    <span class="s1">pos = prev_tower + d</span>
-    <span class="s1">final_pos = pos</span>
-    <span class="s0">if </span><span class="s1">pos &gt;= n:</span>
-        <span class="s1">final_pos = pos - n</span>
-    <span class="s1">can_add = add_tower(grid</span><span class="s0">, </span><span class="s1">d</span><span class="s0">, </span><span class="s1">len(grid) - </span><span class="s4">1</span><span class="s0">, </span><span class="s1">final_pos)</span>
-    <span class="s0">if </span><span class="s1">can_add:</span>
-        <span class="s0">return </span><span class="s1">create_grid(grid</span><span class="s0">, </span><span class="s1">n</span><span class="s0">, </span><span class="s1">d)</span>
-    <span class="s0">else</span><span class="s1">:</span>
-        <span class="s0">return None</span>
+def n_towers(n, d):
+    if d > n:
+        return []
+    grid = create_grid([], n, d)
+    if grid is None:
+        grid = []
+    return grid
 
 
-</pre>
-</body>
-</html>
+def create_grid(grid, n, d):
+    if grid is None:
+        return None
+    if len(grid) == n:
+        return grid
+    if not grid:
+        grid.append(0)
+        return create_grid(grid, n, d)
+    prev_tower = grid[-1]
+    grid.append(None)
+    pos = prev_tower + d
+    final_pos = pos
+    if pos >= n:
+        final_pos = pos - n
+    can_add = add_tower(grid, d, len(grid) - 1, final_pos)
+    if can_add:
+        return create_grid(grid, n, d)
+    else:
+        return None
+
+
