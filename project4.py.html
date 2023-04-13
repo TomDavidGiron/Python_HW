@@ -1,116 +1,95 @@
-<html>
-<head>
-<title>project4.py</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-.s0 { color: #cc7832;}
-.s1 { color: #a9b7c6;}
-.s2 { color: #6a8759;}
-.s3 { color: #808080;}
-.s4 { color: #6897bb;}
-</style>
-</head>
-<body bgcolor="#2b2b2b">
-<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
-<tr><td><center>
-<font face="Arial, Helvetica" color="#000000">
-project4.py</font>
-</center></td></tr></table>
-<pre><span class="s0">def </span><span class="s1">is_valid_integer_csv(file_name):</span>
-    <span class="s0">try</span><span class="s1">:</span>
-        <span class="s1">f = open(file_name</span><span class="s0">, </span><span class="s2">&quot;r&quot;</span><span class="s1">)</span>
-        <span class="s1">list_lines = f.readlines()</span>
-        <span class="s1">list_lines_no_end = []</span>
-        <span class="s1">list_line_check = []</span>
-        <span class="s3"># drop the &quot;\n&quot; and insert to new list</span>
-        <span class="s0">for </span><span class="s1">line </span><span class="s0">in </span><span class="s1">list_lines:</span>
-            <span class="s1">line = line.rstrip()</span>
-            <span class="s1">list_lines_no_end.append(line)</span>
-        <span class="s3"># add the comma and insert to new list</span>
-        <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">list_lines_no_end:</span>
-            <span class="s1">add_comma = i.split(</span><span class="s2">&quot;,&quot;</span><span class="s1">)</span>
-            <span class="s1">list_line_check.append(add_comma)</span>
-        <span class="s3"># check the length of all the lines</span>
-        <span class="s0">for </span><span class="s1">l </span><span class="s0">in </span><span class="s1">list_line_check:</span>
-            <span class="s0">if </span><span class="s1">len(list_line_check[</span><span class="s4">0</span><span class="s1">]) != len(l):</span>
-                <span class="s0">return False</span>
-            <span class="s1">counter_num = </span><span class="s4">0</span>
-            <span class="s3"># check that there are no other argument beside na or int</span>
-            <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">l:</span>
-                <span class="s0">if </span><span class="s1">j != </span><span class="s2">&quot;na&quot; </span><span class="s0">and not </span><span class="s1">j.isdigit():</span>
-                    <span class="s0">return False</span>
-                <span class="s3"># check that there at list one int argument</span>
-                <span class="s0">if </span><span class="s1">j.isdigit():</span>
-                    <span class="s1">counter_num += </span><span class="s4">1</span>
-            <span class="s0">if </span><span class="s1">counter_num == </span><span class="s4">0</span><span class="s1">:</span>
-                <span class="s0">return False</span>
-        <span class="s0">return True</span>
-    <span class="s0">except </span><span class="s1">FileNotFoundError:</span>
-        <span class="s0">return False</span>
+def is_valid_integer_csv(file_name):
+    try:
+        f = open(file_name, "r")
+        list_lines = f.readlines()
+        list_lines_no_end = []
+        list_line_check = []
+        # drop the "\n" and insert to new list
+        for line in list_lines:
+            line = line.rstrip()
+            list_lines_no_end.append(line)
+        # add the comma and insert to new list
+        for i in list_lines_no_end:
+            add_comma = i.split(",")
+            list_line_check.append(add_comma)
+        # check the length of all the lines
+        for l in list_line_check:
+            if len(list_line_check[0]) != len(l):
+                return False
+            counter_num = 0
+            # check that there are no other argument beside na or int
+            for j in l:
+                if j != "na" and not j.isdigit():
+                    return False
+                # check that there at list one int argument
+                if j.isdigit():
+                    counter_num += 1
+            if counter_num == 0:
+                return False
+        return True
+    except FileNotFoundError:
+        return False
 
 
-<span class="s0">def </span><span class="s1">is_dict(obj):</span>
-    <span class="s0">return </span><span class="s1">type(obj) == dict</span>
+def is_dict(obj):
+    return type(obj) == dict
 
 
-<span class="s0">def </span><span class="s1">dict_depth(d):</span>
-    <span class="s3"># check that d is dict</span>
-    <span class="s0">if not </span><span class="s1">is_dict(d):</span>
-        <span class="s0">raise </span><span class="s1">TypeError(</span><span class="s2">&quot;not a dict&quot;</span><span class="s1">)</span>
-    <span class="s0">return </span><span class="s1">dict_count(d) - </span><span class="s4">1</span>
+def dict_depth(d):
+    # check that d is dict
+    if not is_dict(d):
+        raise TypeError("not a dict")
+    return dict_count(d) - 1
 
 
-<span class="s0">def </span><span class="s1">dict_count(d: dict):</span>
-    <span class="s0">if not </span><span class="s1">is_dict:</span>
-        <span class="s0">return </span><span class="s4">0</span>
-    <span class="s1">current_max_val = </span><span class="s4">0</span>
-    <span class="s3"># calculate max depth of dict</span>
-    <span class="s0">for </span><span class="s1">key </span><span class="s0">in </span><span class="s1">d.keys():</span>
-        <span class="s0">if </span><span class="s1">is_dict(d[key]):</span>
-            <span class="s1">key_count = dict_count(d[key])</span>
-            <span class="s1">current_max_val = max(key_count</span><span class="s0">, </span><span class="s1">current_max_val)</span>
-    <span class="s0">return </span><span class="s1">current_max_val + </span><span class="s4">1</span>
+def dict_count(d: dict):
+    if not is_dict:
+        return 0
+    current_max_val = 0
+    # calculate max depth of dict
+    for key in d.keys():
+        if is_dict(d[key]):
+            key_count = dict_count(d[key])
+            current_max_val = max(key_count, current_max_val)
+    return current_max_val + 1
 
 
-<span class="s0">def </span><span class="s1">connected_nodes(graph</span><span class="s0">, </span><span class="s1">node):</span>
-    <span class="s1">visited = []</span>
-    <span class="s1">explore = [node]</span>
-    <span class="s3"># recursive condition</span>
-    <span class="s3"># as long as explore is not empty</span>
-    <span class="s0">while </span><span class="s1">explore != []:</span>
-        <span class="s1">temp_tzomet = explore.pop(</span><span class="s4">0</span><span class="s1">)</span>
-        <span class="s0">if </span><span class="s1">temp_tzomet </span><span class="s0">not in </span><span class="s1">visited </span><span class="s0">and </span><span class="s1">temp_tzomet </span><span class="s0">not in </span><span class="s1">explore:</span>
-            <span class="s3"># inserting the tzomet point we can go to</span>
-            <span class="s1">explore.extend(graph[temp_tzomet])</span>
-            <span class="s1">visited.extend(temp_tzomet)</span>
-    <span class="s0">if </span><span class="s1">visited == []:</span>
-        <span class="s0">return </span><span class="s1">[node]</span>
-    <span class="s0">return </span><span class="s1">visited</span>
+def connected_nodes(graph, node):
+    visited = []
+    explore = [node]
+    # recursive condition
+    # as long as explore is not empty
+    while explore != []:
+        temp_tzomet = explore.pop(0)
+        if temp_tzomet not in visited and temp_tzomet not in explore:
+            # inserting the tzomet point we can go to
+            explore.extend(graph[temp_tzomet])
+            visited.extend(temp_tzomet)
+    if visited == []:
+        return [node]
+    return visited
 
 
-<span class="s0">def </span><span class="s1">maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">start_point</span><span class="s0">, </span><span class="s1">memo):</span>
-    <span class="s3"># recursive condition</span>
-    <span class="s3"># as long as we are not in the last square of the grid</span>
-    <span class="s0">if </span><span class="s1">len(grid) - </span><span class="s4">1 </span><span class="s1">== start_point[</span><span class="s4">0</span><span class="s1">] </span><span class="s0">and </span><span class="s1">len(grid[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1 </span><span class="s1">== start_point[</span><span class="s4">1</span><span class="s1">]:</span>
-        <span class="s0">return </span><span class="s1">grid[start_point[</span><span class="s4">0</span><span class="s1">]][start_point[</span><span class="s4">1</span><span class="s1">]]</span>
-    <span class="s3"># calculating all the paths there is and select the path with the max value</span>
-    <span class="s0">elif </span><span class="s1">start_point[</span><span class="s4">1</span><span class="s1">] == len(grid[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">:</span>
-        <span class="s1">memo[start_point] = maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">(start_point[</span><span class="s4">0</span><span class="s1">] + </span><span class="s4">1</span><span class="s0">, </span><span class="s1">start_point[</span><span class="s4">1</span><span class="s1">])</span><span class="s0">, </span><span class="s1">memo) \</span>
-                            <span class="s1">+ grid[start_point[</span><span class="s4">0</span><span class="s1">]][start_point[</span><span class="s4">1</span><span class="s1">]]</span>
-    <span class="s0">elif </span><span class="s1">start_point[</span><span class="s4">0</span><span class="s1">] == len(grid) - </span><span class="s4">1</span><span class="s1">:</span>
-        <span class="s1">memo[start_point] = maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">(start_point[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">start_point[</span><span class="s4">1</span><span class="s1">] + </span><span class="s4">1</span><span class="s1">)</span><span class="s0">, </span><span class="s1">memo) \</span>
-                            <span class="s1">+ grid[start_point[</span><span class="s4">0</span><span class="s1">]][start_point[</span><span class="s4">1</span><span class="s1">]]</span>
-    <span class="s0">else</span><span class="s1">:</span>
-        <span class="s1">memo[start_point] = max(maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">(start_point[</span><span class="s4">0</span><span class="s1">] + </span><span class="s4">1</span><span class="s0">, </span><span class="s1">start_point[</span><span class="s4">1</span><span class="s1">])</span><span class="s0">, </span><span class="s1">memo)</span><span class="s0">,</span>
-                                <span class="s1">maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">(start_point[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">start_point[</span><span class="s4">1</span><span class="s1">] + </span><span class="s4">1</span><span class="s1">)</span><span class="s0">, </span><span class="s1">memo)) \</span>
-                            <span class="s1">+ grid[start_point[</span><span class="s4">0</span><span class="s1">]][start_point[</span><span class="s4">1</span><span class="s1">]]</span>
-    <span class="s0">return </span><span class="s1">memo[start_point]</span>
+def maximum_reward_memo_helper(grid, start_point, memo):
+    # recursive condition
+    # as long as we are not in the last square of the grid
+    if len(grid) - 1 == start_point[0] and len(grid[0]) - 1 == start_point[1]:
+        return grid[start_point[0]][start_point[1]]
+    # calculating all the paths there is and select the path with the max value
+    elif start_point[1] == len(grid[0]) - 1:
+        memo[start_point] = maximum_reward_memo_helper(grid, (start_point[0] + 1, start_point[1]), memo) \
+                            + grid[start_point[0]][start_point[1]]
+    elif start_point[0] == len(grid) - 1:
+        memo[start_point] = maximum_reward_memo_helper(grid, (start_point[0], start_point[1] + 1), memo) \
+                            + grid[start_point[0]][start_point[1]]
+    else:
+        memo[start_point] = max(maximum_reward_memo_helper(grid, (start_point[0] + 1, start_point[1]), memo),
+                                maximum_reward_memo_helper(grid, (start_point[0], start_point[1] + 1), memo)) \
+                            + grid[start_point[0]][start_point[1]]
+    return memo[start_point]
 
 
-<span class="s0">def </span><span class="s1">maximum_reward_memo(grid):</span>
-    <span class="s1">memo = {}</span>
-    <span class="s1">result = maximum_reward_memo_helper(grid</span><span class="s0">, </span><span class="s1">(</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">memo)</span>
-    <span class="s0">return </span><span class="s1">result</span><span class="s0">, </span><span class="s1">memo</span>
-</pre>
-</body>
-</html>
+def maximum_reward_memo(grid):
+    memo = {}
+    result = maximum_reward_memo_helper(grid, (0, 0), memo)
+    return result, memo
